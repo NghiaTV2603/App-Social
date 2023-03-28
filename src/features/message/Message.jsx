@@ -5,7 +5,7 @@ import ContentMessage from "src/features/message/components/ContentMessage";
 
 const Message = () => {
   return(
-    <Stack height={"90vh"} direction={'row'}>
+    <Stack sx={{height: 'calc(100vh - 70px)'}} direction={'row'}>
       <MemberChat/>
       <ContentMessage/>
     </Stack>

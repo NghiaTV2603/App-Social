@@ -23,7 +23,7 @@ const HomePage = () => {
     <React.Fragment>
       <Stack>
         <SideBarApp handleSetIndex={handleSetIndex} onOpenChat ={handleOpenChat} />
-        <Stack height={"10vh"} bgcolor={colors.grey[800]}>
+        <Stack height={"70px"} bgcolor={colors.grey[800]}>
         </Stack>
         <Outlet/>
       </Stack>
