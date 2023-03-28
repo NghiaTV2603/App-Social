@@ -1,8 +1,9 @@
 import React from 'react';
-import {Stack} from '@mui/material';
+import {colors, Stack} from '@mui/material';
 import SideBarApp from './components/AppBar'
 import MainApp from "src/features/home/components/MainApp";
 import TabMessage from "src/features/message/TabMessage";
+import {Outlet} from "react-router-dom";
 
 
 const HomePage = () => {
@@ -22,8 +23,9 @@ const HomePage = () => {
     <React.Fragment>
       <Stack>
         <SideBarApp handleSetIndex={handleSetIndex} onOpenChat ={handleOpenChat} />
-        <MainApp indexPage={indexPage}/>
-        { isTabChat && <TabMessage onCloseChat ={handleCloseChat}/>}
+        <Stack height={"10vh"} bgcolor={colors.grey[800]}>
+        </Stack>
+        <Outlet/>
       </Stack>
     </React.Fragment>
   );

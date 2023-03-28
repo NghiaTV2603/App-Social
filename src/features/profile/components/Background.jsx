@@ -12,7 +12,6 @@ const userAuth = {
 
 const Background = () => {
   return (<Stack>
-      <Stack height={69}></Stack>
       <Stack direction='column'>
         <Stack width={1080}>
           <CardMedia

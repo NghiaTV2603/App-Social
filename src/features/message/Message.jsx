@@ -1,10 +1,13 @@
 import React from 'react'
-import {Stack} from "@mui/material";
+import {colors, Stack} from "@mui/material";
+import MemberChat from "src/features/message/components/MemberChat";
+import ContentMessage from "src/features/message/components/ContentMessage";
 
 const Message = () => {
   return(
-    <Stack>
-      message
+    <Stack height={"90vh"} direction={'row'}>
+      <MemberChat/>
+      <ContentMessage/>
     </Stack>
   )
 }

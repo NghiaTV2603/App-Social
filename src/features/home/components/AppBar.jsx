@@ -15,6 +15,9 @@ import HomeIcon from '@mui/icons-material/Home';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import RightAppBar from "src/features/home/components/RightAppBar";
+import ChatIcon from '@mui/icons-material/Chat';
+import FitbitIcon from '@mui/icons-material/Fitbit';
+import {useNavigate} from "react-router";
 
 function SideBarApp(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -27,12 +30,13 @@ function SideBarApp(props) {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+  const navigate = useNavigate();
 
   return (
     <AppBar position="fixed" sx={{backgroundColor: colors.grey[800]}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <OndemandVideoIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}}/>
+          <FitbitIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}}/>
           <Typography
             variant="h6"
             noWrap
@@ -48,7 +52,7 @@ function SideBarApp(props) {
               textDecoration: 'none',
             }}
           >
-            VideoApp
+            Social
           </Typography>
 
           <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
@@ -87,6 +91,7 @@ function SideBarApp(props) {
                 handleCloseNavMenu();
                 props.handleSetIndex(0);
                 setIndexPage(0);
+                navigate("/home");
               }}>
                 <Typography color={colors.grey[300]} textAlign="center">Home</Typography>
               </MenuItem>
@@ -94,11 +99,13 @@ function SideBarApp(props) {
                 handleCloseNavMenu();
                 props.handleSetIndex(1);
                 setIndexPage(1);
+                navigate("/chat");
               }}>
-                <Typography color={colors.grey[300]} textAlign="center">Trending</Typography>
+                <Typography color={colors.grey[300]} textAlign="center">Chats</Typography>
               </MenuItem>
               <MenuItem onClick={() => {
                 handleCloseNavMenu();
+                navigate("/profile");
                 props.handleSetIndex(2);
                 setIndexPage(2);
               }}>
@@ -106,7 +113,7 @@ function SideBarApp(props) {
               </MenuItem>
             </Menu>
           </Box>
-          <OndemandVideoIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}/>
+          <FitbitIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}/>
           <Typography
             variant="h5"
             noWrap
@@ -123,13 +130,14 @@ function SideBarApp(props) {
               textDecoration: 'none',
             }}
           >
-            VideoApp
+            Social
           </Typography>
-          <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
+          <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'} , justifyContent: 'center'}}>
             <Button
               onClick={() => {
                 setIndexPage(0);
-                props.handleSetIndex(0)
+                props.handleSetIndex(0);
+                navigate('/home');
               }}
               sx={{
                 my: 2,
@@ -144,7 +152,8 @@ function SideBarApp(props) {
             <Button
               onClick={() => {
                 setIndexPage(1);
-                props.handleSetIndex(1)
+                props.handleSetIndex(1);
+                navigate('chat');
               }}
               sx={{
                 my: 2,
@@ -152,14 +161,15 @@ function SideBarApp(props) {
                 marginRight: 1,
                 '&:hover': {backgroundColor: colors.grey[700]}
               }}
-              startIcon={<WhatshotIcon/>}
+              startIcon={<ChatIcon/>}
             >
-              Trending
+              Chats
             </Button>
             <Button
               onClick={() => {
                 setIndexPage(2);
-                props.handleSetIndex(2)
+                props.handleSetIndex(2);
+                navigate('profile');
               }}
               sx={{
                 my: 2,
