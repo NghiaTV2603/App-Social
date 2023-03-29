@@ -6,9 +6,18 @@ const messageSlice = createSlice({
    initialState: {
       status: 'idle',
       chats: [],
+      currentChat: null,
       messages: [],
    },
-   reducers: {},
+   reducers: {
+      setChat: (state, action) => {
+         state.currentChat = action.payload;
+      },
+     resetChat : (state, action) => {
+       state.currentChat = null;
+       state.messages = [] ;
+     }
+   },
    extraReducers: (builder) => {
       builder.addCase(fetchAccessChat.fulfilled, (state, action) => {
          state.chats.push(action.payload);
@@ -31,9 +40,9 @@ const messageSlice = createSlice({
          state.messages.unshift(action.payload);
          state.chats = state.chats.map((item) => {
             if (item._id === action.payload.chat._id) {
-              return { ...item, latestMessage: action.payload };
+               return { ...item, latestMessage: action.payload };
             }
-           return item;
+            return item;
          });
       });
    },

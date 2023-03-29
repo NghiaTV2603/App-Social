@@ -2,20 +2,20 @@ import React, { useEffect } from 'react';
 import { colors, Stack, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchChat, fetchMessage } from 'src/features/message/messageSlice';
+import messageSlice, { fetchChat, fetchMessage } from 'src/features/message/messageSlice';
+import {useNavigate} from "react-router";
 
-const MemberChat = (props) => {
+const MemberChat = () => {
    const dataChats = useSelector((state) => state.message.chats);
    const userAuth = useSelector((state) => state.authen.user);
    const dispatch = useDispatch();
    const token = useSelector((state) => state.authen.token);
+   const navigate = useNavigate()
    const handleSelectChat = (chat) => {
-      props.onSetChat(chat);
-      const data = {
-         token: token,
-         id: chat._id,
-      };
-      dispatch(fetchMessage(data));
+
+      dispatch(messageSlice.actions.setChat(chat));
+      navigate(`/chat/${chat._id}`);
+
    };
    useEffect(() => {
       dispatch(fetchChat(token));

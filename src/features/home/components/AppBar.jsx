@@ -99,7 +99,7 @@ function SideBarApp(props) {
                 handleCloseNavMenu();
                 props.handleSetIndex(1);
                 setIndexPage(1);
-                navigate("/chat");
+                navigate("/chat/0");
               }}>
                 <Typography color={colors.grey[300]} textAlign="center">Chats</Typography>
               </MenuItem>
@@ -153,7 +153,7 @@ function SideBarApp(props) {
               onClick={() => {
                 setIndexPage(1);
                 props.handleSetIndex(1);
-                navigate('chat');
+                navigate('chat/0');
               }}
               sx={{
                 my: 2,

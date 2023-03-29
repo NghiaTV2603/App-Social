@@ -6,6 +6,7 @@ import NotFoundPage from 'src/layouts/NotFoundPage';
 import Message from 'src/features/message/Message';
 import NewsFeed from 'src/features/newsFeed/NewsFeed';
 import Profile from 'src/features/profile/Profile';
+import ContentMessage from "src/features/message/components/ContentMessage";
 
 const routes = [
    {
@@ -19,7 +20,7 @@ const routes = [
                { path: '/', element: <NewsFeed /> },
                { path: '/home', element: <NewsFeed /> },
                { path: '/profile', element: <Profile /> },
-               { path: '/chat', element: <Message /> },
+               { path: '/chat', element: <Message />,children :[{ path: '*', element: <ContentMessage /> }] },
             ],
          },
          { path: '404', element: <NotFoundPage /> },

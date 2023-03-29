@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { colors, Stack, Typography, IconButton } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import CallIcon from '@mui/icons-material/Call';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import Tooltip from '@mui/material/Tooltip';
 import SendIcon from '@mui/icons-material/Send';
-import { v4 as uuid } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSendMessage } from 'src/features/message/messageSlice';
+import messageSlice, {
+   fetchMessage,
+   fetchSendMessage,
+} from 'src/features/message/messageSlice';
+import io from 'socket.io-client'
 
 const styleIconButton = {
    height: 36,
@@ -15,11 +18,24 @@ const styleIconButton = {
    color: colors.grey[300],
    '&:hover': { backgroundColor: colors.grey[700] },
 };
-const ContentMessage = (props) => {
-   const userChat = props?.chat;
+const ContentMessage = () => {
+   const userChat = useSelector((state) => state.message.currentChat);
    const messages = useSelector((state) => state.message.messages);
    const userAuth = useSelector((state) => state.authen.user);
    const token = useSelector((state) => state.authen.token);
+   const url = window.location.href.split('/');
+   const chatId = url[url.length - 1];
+   useEffect(() => {
+      if (chatId != "0") {
+         const data = {
+            token: token,
+            id: chatId,
+         };
+         dispatch(fetchMessage(data));
+      }else{
+        dispatch(messageSlice.actions.resetChat());
+      }
+   }, [chatId]);
    const dispatch = useDispatch();
    const [contentMessage, setContentMessage] = React.useState('');
    const handleSendMessage = () => {
@@ -41,6 +57,12 @@ const ContentMessage = (props) => {
          handleSendMessage();
       }
    };
+
+   // handle socket io
+
+  useEffect(()=> {
+    const socket = io("http://localhost:5000")
+  },[])
 
    return (
       <>
