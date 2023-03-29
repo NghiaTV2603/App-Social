@@ -1,16 +1,11 @@
 import React from 'react'
 import {Avatar, CardMedia, colors, Stack, Typography} from "@mui/material";
+import {useSelector} from "react-redux";
 
-const userAuth = {
-  avatar: 'https://akm-img-a-in.tosshub.com/indiatoday/images/story/202212/messiworldcupkiss-sixteen_nine.jpg?VersionId=KWx9GiX6ck7S__64GF0Obl4osEdybDZW&size=690:388',
-  username: 'Nghia Tran Van',
-  email: 'nghiatv2603@gmail.com',
-  numberPost: 3,
-  totalLike: 12123,
-  fr: 440,
-}
 
 const Background = () => {
+
+  const userAuth = useSelector(state => state.authen.user) ;
   return (<Stack>
       <Stack direction='column'>
         <Stack width={1080}>
@@ -27,8 +22,8 @@ const Background = () => {
           </Stack>
           <Stack pl={35} pb={2} pt={2} color={colors.grey[300]}>
             <Typography fontSize={32} fontWeight={500}>{userAuth.username}</Typography>
-            <Typography>{userAuth.fr} Friends</Typography>
-            <Typography>{userAuth.numberPost} Posts - {userAuth.totalLike} Likes</Typography>
+            <Typography>{userAuth.friends.length} Friends</Typography>
+            <Typography>{userAuth.posts.length} Posts </Typography>
           </Stack>
         </Stack>
         <Stack sx={{display: {xs: 'flex', md: 'none'}}}>
@@ -37,8 +32,8 @@ const Background = () => {
           </Stack>
           <Stack alignItems='center' pt={14} pb={2} color={colors.grey[300]}>
             <Typography fontSize={32} fontWeight={500}>{userAuth.username}</Typography>
-            <Typography>{userAuth.fr} Friends</Typography>
-            <Typography>{userAuth.numberPost} Posts - {userAuth.totalLike} Likes</Typography>
+            <Typography>{userAuth.friends.length} Friends</Typography>
+            <Typography>{userAuth.posts.length} Posts </Typography>
           </Stack>
         </Stack>
       </Stack>

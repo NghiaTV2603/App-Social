@@ -38,6 +38,7 @@ const userAuth = useSelector(state => state.authen.user)
             keepMounted
             onClose={handleCloseAddPost}
             aria-describedby="alert-dialog-slide-description"
+            maxWidth={'false'}
           >
             <AddPost  user={userAuth} onClose={handleCloseAddPost} />
           </Dialog>

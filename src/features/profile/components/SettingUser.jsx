@@ -1,20 +1,15 @@
 import React from 'react'
 import {Avatar, Button, colors, Divider, Stack, Typography,Slide,Dialog} from "@mui/material";
 import {DialogChangePassword, DialogEditUsername} from "src/features/profile/components/DialogEdit";
+import {useSelector} from "react-redux";
 
-const userAuth = {
-  avatar: 'https://akm-img-a-in.tosshub.com/indiatoday/images/story/202212/messiworldcupkiss-sixteen_nine.jpg?VersionId=KWx9GiX6ck7S__64GF0Obl4osEdybDZW&size=690:388',
-  username: 'Nghia Tran Van',
-  email: 'nghiatv2603@gmail.com',
-  numberPost: 3,
-  totalLike: 12123,
-}
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const SettingUser = () => {
+  const userAuth = useSelector(state => state.authen.user) ;
 
 
   // edit username
@@ -44,8 +39,7 @@ const SettingUser = () => {
             <Stack ml={2}>
               <Typography color={colors.grey[300]} variant='h6' fontSize={24}>{userAuth.username}</Typography>
               <Stack>
-                <Typography fontSize={14} sx={{color: colors.grey[400]}}>{userAuth.numberPost} Posts
-                  - {userAuth.totalLike} Likes</Typography>
+                <Typography fontSize={14} sx={{color: colors.grey[400]}}>{userAuth.posts.length} Posts</Typography>
               </Stack>
             </Stack>
           </Stack>
