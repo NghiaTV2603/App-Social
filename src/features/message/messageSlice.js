@@ -16,6 +16,15 @@ const messageSlice = createSlice({
      resetChat : (state, action) => {
        state.currentChat = null;
        state.messages = [] ;
+     },
+     addMessage : (state, action) => {
+       state.messages.unshift(action.payload);
+       state.chats = state.chats.map((item) => {
+         if (item._id === action.payload.chat._id) {
+           return { ...item, latestMessage: action.payload };
+         }
+         return item;
+       });
      }
    },
    extraReducers: (builder) => {

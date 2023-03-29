@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { colors, Stack, Typography, IconButton } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import CallIcon from '@mui/icons-material/Call';
@@ -10,7 +10,7 @@ import messageSlice, {
    fetchMessage,
    fetchSendMessage,
 } from 'src/features/message/messageSlice';
-import io from 'socket.io-client'
+import io from 'socket.io-client';
 
 const styleIconButton = {
    height: 36,
@@ -23,17 +23,34 @@ const ContentMessage = () => {
    const messages = useSelector((state) => state.message.messages);
    const userAuth = useSelector((state) => state.authen.user);
    const token = useSelector((state) => state.authen.token);
+   const [connect, setConnect] = useState(false);
    const url = window.location.href.split('/');
    const chatId = url[url.length - 1];
+
+   const socket = io('http://localhost:5000');
    useEffect(() => {
-      if (chatId != "0") {
+      socket.emit('setup', userAuth._id);
+      socket.on('connected', () => {
+         setConnect(true);
+      });
+   }, []);
+
+   useEffect(() => {
+      socket.on('message received', (newMessage) => {
+         dispatch(messageSlice.actions.addMessage(newMessage));
+      });
+   });
+
+   useEffect(() => {
+      if (chatId != '0') {
          const data = {
             token: token,
             id: chatId,
          };
          dispatch(fetchMessage(data));
-      }else{
-        dispatch(messageSlice.actions.resetChat());
+         socket.emit('joinChat', chatId);
+      } else {
+         dispatch(messageSlice.actions.resetChat());
       }
    }, [chatId]);
    const dispatch = useDispatch();
@@ -48,7 +65,9 @@ const ContentMessage = () => {
          data,
       };
       if (contentMessage) {
-         dispatch(fetchSendMessage(dataFetch));
+         dispatch(fetchSendMessage(dataFetch)).then((res) => {
+            socket.emit('newMessage', res.payload);
+         });
       }
       setContentMessage('');
    };
@@ -59,10 +78,6 @@ const ContentMessage = () => {
    };
 
    // handle socket io
-
-  useEffect(()=> {
-    const socket = io("http://localhost:5000")
-  },[])
 
    return (
       <>
