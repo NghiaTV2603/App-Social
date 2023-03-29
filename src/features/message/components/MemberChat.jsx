@@ -1,79 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { colors, Stack, Typography } from '@mui/material';
-import Avatar from "@mui/material/Avatar";
+import Avatar from '@mui/material/Avatar';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchChat, fetchMessage } from 'src/features/message/messageSlice';
 
-const dataMessage = [
-  {
-    id: 1,
-    username: 'Minh Tran',
-    avatar: '',
-    message: 'Hello my fr',
-  },
-  {
-    id: 2,
-    username: 'Nam Nguyen',
-    avatar: '',
-    message: 'Hello my fr Hello my fr Hello my fr Hello my fr Hello my fr Hello my fr ',
-  },
-  {
-    id: 3,
-    username: 'Hang Dinh',
-    avatar: '',
-    message: 'param mentor sao ',
-  },
-  {
-    id: 4,
-    username: 'Piter Mile',
-    avatar: '',
-    message: 'Hello my fr',
-  },
-  {
-    id: 5,
-    username: 'Piter Mile',
-    avatar: '',
-    message: 'Hello my fr',
-  },
-  {
-    id: 6,
-    username: 'Piter Mile',
-    avatar: '',
-    message: 'Hello my fr',
-  },
-  {
-    id: 7,
-    username: 'Piter Mile',
-    avatar: '',
-    message: 'Hello my fr',
-  },{
-    id: 8,
-    username: 'Piter Mile',
-    avatar: '',
-    message: 'Hello my fr',
-  },{
-    id: 9,
-    username: 'Piter Mile',
-    avatar: '',
-    message: 'Hello my fr',
-  },{
-    id: 10,
-    username: 'Piter Mile',
-    avatar: '',
-    message: 'Hello my fr',
-  },{
-    id: 11,
-    username: 'Piter Mile',
-    avatar: '',
-    message: 'Hello my fr',
-  },{
-    id: 12,
-    username: 'Piter Mile',
-    avatar: '',
-    message: 'Hello my fr',
-  },
-];
-
-
-const MemberChat = () => {
+const MemberChat = (props) => {
+   const dataChats = useSelector((state) => state.message.chats);
+   const userAuth = useSelector((state) => state.authen.user);
+   const dispatch = useDispatch();
+   const token = useSelector((state) => state.authen.token);
+   const handleSelectChat = (chat) => {
+      props.onSetChat(chat);
+      const data = {
+         token: token,
+         id: chat._id,
+      };
+      dispatch(fetchMessage(data));
+   };
+   useEffect(() => {
+      dispatch(fetchChat(token));
+   }, []);
    return (
       <>
          <Stack
@@ -99,22 +45,52 @@ const MemberChat = () => {
                   }}
                />
             </Stack>
-           <Stack style={{maxHeight: "100%", overflow: 'auto'}} p={1}>
-             {
-               dataMessage.map(msg => (
-                 <Stack pl={1} key={msg.id} borderRadius={2} direction='row' py={1} spacing={1}
-                        sx={{'&:hover': {backgroundColor: colors.grey[800]}, cursor: 'pointer'}}
-                         >
-                   <Avatar src={msg.avatar} sx={{height: 48, width: 48}}/>
-                   <Stack>
-                     <Typography fontSize={18} fontWeight={400}>{msg.username}</Typography>
-                     <Typography
-                       fontSize={13}>{(msg.message.length > 45) ? msg.message.slice(0, 45) + "..." : msg.message}</Typography>
-                   </Stack>
-                 </Stack>
-               ))
-             }
-           </Stack>
+            <Stack style={{ maxHeight: '100%', overflow: 'auto' }} p={1} >
+               {dataChats.map((msg) => (
+                  <Stack
+                     pl={1}
+                     key={msg._id}
+                     borderRadius={2}
+                     direction="row"
+                     py={1}
+                     spacing={1}
+                     sx={{
+                        '&:hover': { backgroundColor: colors.grey[800] },
+                        cursor: 'pointer',
+                     }}
+                     onClick={() => handleSelectChat(msg)}
+                  >
+                     <Avatar
+                        src={
+                           msg.users.find((item) => item._id !== userAuth._id)
+                              ?.avatar
+                        }
+                        sx={{ height: 48, width: 48 }}
+                     />
+                     <Stack>
+                        <Typography fontSize={18} fontWeight={400}>
+                           {
+                              msg.users.find(
+                                 (item) => item._id !== userAuth._id
+                              )?.username
+                           }
+                        </Typography>
+                        <Stack direction={'row'} >
+                           <Typography fontSize={13} sx={{marginRight:1}}>
+                              {msg.latestMessage.sender === userAuth._id ||msg.latestMessage.sender?._id === userAuth._id
+                                 ? 'You : '
+                                 : ''}
+                           </Typography>
+                           <Typography fontSize={13}>
+                              {msg.latestMessage.content.length > 45
+                                 ? msg.message.slice(0, 45) + '...'
+                                 : msg.latestMessage.content}
+                           </Typography>
+                        </Stack>
+                     </Stack>
+                  </Stack>
+               ))}
+            </Stack>
          </Stack>
       </>
    );

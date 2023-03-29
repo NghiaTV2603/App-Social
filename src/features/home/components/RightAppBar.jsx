@@ -195,7 +195,7 @@ const RightAppBar = (props) => {
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
             <Avatar alt="Remy Sharp" sx={{height: 42, width: 42,}}
-                    src={userAuth.avatar}/>
+                    src={userAuth?.avatar}/>
           </IconButton>
         </Tooltip>
         <Menu
