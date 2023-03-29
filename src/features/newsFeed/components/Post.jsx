@@ -21,12 +21,13 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import SendIcon from '@mui/icons-material/Send';
 import DialogEditPost from 'src/features/newsFeed/components/DialogEditPost';
-import { v4 as uuid } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchLikePost } from 'src/features/newsFeed/newfeedSlice';
+import {fetchComment, fetchLikePost} from 'src/features/newsFeed/newfeedSlice';
 
 const CommentPost = (props) => {
    const comment = props.comment;
+   const id = props.id;
+   console.log(id);
    // edit comment
    const [anchorCmt, setAnchorCmt] = React.useState(null);
    const openCmt = Boolean(anchorCmt);
@@ -35,7 +36,6 @@ const CommentPost = (props) => {
    };
    const handleCloseCMT = (id) => {
       setAnchorCmt(null);
-      console.log();
    };
    return (
       <Stack direction="row" px={2} py={0.5} color={colors.grey[400]}>
@@ -130,10 +130,19 @@ const Post = (props) => {
    const handleCloseEditPost = () => {
       setOpenEdit(false);
    };
-   //handle comment
-   const handleSetNewComment = (e) => {
-      setContentComment(e.target.value);
-      console.log(e.target.value);
+   const handleSubmitComment = () => {
+      const comment = {
+         id: dataPost._id,
+         data: {
+            content: contentComment,
+         },
+      };
+      const dataFetch = {
+         token,
+         comment,
+      };
+      dispatch(fetchComment(dataFetch));
+      setContentComment('');
    };
 
    return (
@@ -297,7 +306,7 @@ const Post = (props) => {
          {openComment &&
             dataPost.comments.map((comment) => (
                <Stack key={comment._id}>
-                  <CommentPost comment={comment} />
+                  <CommentPost comment={comment} id={dataPost._id} />
                </Stack>
             ))}
          <Stack direction="row" px={2} py={1} alignItems="center">
@@ -317,7 +326,9 @@ const Post = (props) => {
                   paddingLeft: 16,
                   width: 550,
                }}
-               onChange={handleSetNewComment}
+               onChange={(e) => {
+                  setContentComment(e.target.value);
+               }}
                value={contentComment}
             />
             <IconButton
@@ -327,6 +338,7 @@ const Post = (props) => {
                   marginLeft: 2,
                   '&:hover': { backgroundColor: colors.grey[700] },
                }}
+               onClick={handleSubmitComment}
             >
                <SendIcon sx={{ color: colors.grey[400] }} />
             </IconButton>

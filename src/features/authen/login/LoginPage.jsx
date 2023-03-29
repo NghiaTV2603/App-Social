@@ -20,7 +20,6 @@ import { useEffect } from 'react';
 
 export default function LoginPage() {
    const stateAuthen = useSelector(state => state.authen);
-   console.log(stateAuthen)
    const theme = useTheme();
    const themeMode = theme.palette.mode;
    const dispatch = useDispatch();

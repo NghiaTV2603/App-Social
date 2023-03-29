@@ -44,6 +44,27 @@ export const newfeedSlice = createSlice({
          state.myPost.push(action.payload);
       });
       builder.addCase(fetchLikePost.fulfilled, (state, action) => {});
+      builder.addCase(fetchComment.fulfilled, (state, action) => {
+         const comment = action.payload;
+         state.allPost = state.allPost.map((item) => {
+            if (item._id === comment.post_id) {
+               return {
+                  ...item,
+                  comments: [...item.comments, comment],
+               };
+            }
+            return item;
+         });
+         state.myPost = state.myPost.map((item) => {
+            if (item._id === comment.post_id) {
+               return {
+                  ...item,
+                  comments: [...item.comments, comment],
+               };
+            }
+            return item;
+         });
+      });
    },
 });
 
@@ -88,6 +109,31 @@ export const fetchLikePost = createAsyncThunk(
       try {
          const res = await postApi.likePost(params.token, params.id);
          return res.data;
+      } catch (e) {
+         return rejectWithValue(e.response.data);
+      }
+   }
+);
+
+export const fetchComment = createAsyncThunk(
+   'posts/comment',
+   async (params, { rejectWithValue }) => {
+      try {
+         const res = await postApi.commentPost(params.token, params.comment);
+         console.log(res.data[0]);
+         return res.data[0];
+      } catch (e) {
+         return rejectWithValue(e.response.data);
+      }
+   }
+);
+
+export const fetchDeleteComment = createAsyncThunk(
+   'post/deletePost',
+   async (params, { rejectWithValue }) => {
+      try {
+         const res = await postApi.deleteComment(params.token, params.id);
+         return params.id;
       } catch (e) {
          return rejectWithValue(e.response.data);
       }

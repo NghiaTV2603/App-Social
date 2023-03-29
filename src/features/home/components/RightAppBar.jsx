@@ -8,74 +8,17 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
 import {Link} from "react-router-dom"
-
-const dataNotifications = [
-  {
-    id: 1,
-    username: 'Nam Nguyen Van',
-    avatar: '',
-    massage: 'commented on your post',
-  },
-  {
-    id: 2,
-    username: 'Nam Nguyen Van',
-    avatar: '',
-    massage: 'liked your post',
-  },
-]
-
-const dataMessage = [
-  {
-    id: 1,
-    username: 'Minh Tran',
-    avatar: '',
-    message: 'Hello my fr',
-  },
-  {
-    id: 2,
-    username: 'Nam Nguyen',
-    avatar: '',
-    message: 'Hello my fr Hello my fr Hello my fr Hello my fr Hello my fr Hello my fr ',
-  },
-  {
-    id: 3,
-    username: 'Hang Dinh',
-    avatar: '',
-    message: 'param mentor sao ',
-  },
-  {
-    id: 4,
-    username: 'Piter Mile',
-    avatar: '',
-    message: 'Hello my fr',
-  },
-  {
-    id: 5,
-    username: 'Piter Mile',
-    avatar: '',
-    message: 'Hello my fr',
-  },
-  {
-    id: 6,
-    username: 'Piter Mile',
-    avatar: '',
-    message: 'Hello my fr',
-  },
-  {
-    id: 7,
-    username: 'Piter Mile',
-    avatar: '',
-    message: 'Hello my fr',
-  },
-];
+import {useSelector} from "react-redux";
 
 const RightAppBar = (props) => {
+  const dataMessage = [];
+  const dataNotifications = [];
+  const userAuth = useSelector(state => state.authen.user);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorElMessage, setAnchorElMessage] = React.useState(null);
@@ -252,7 +195,7 @@ const RightAppBar = (props) => {
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
             <Avatar alt="Remy Sharp" sx={{height: 42, width: 42,}}
-                    src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/202212/messiworldcupkiss-sixteen_nine.jpg?VersionId=KWx9GiX6ck7S__64GF0Obl4osEdybDZW&size=690:388"/>
+                    src={userAuth.avatar}/>
           </IconButton>
         </Tooltip>
         <Menu
@@ -303,88 +246,6 @@ const RightAppBar = (props) => {
           </MenuItem>
         </Menu>
       </Stack>
-
-
-      {/*<Stack sx={{flexGrow: 0}}>*/}
-      {/*  <Stack  direction='row' spacing={1.5} id='right-app-bar'>*/}
-      {/*    <Tooltip title='Notifications'>*/}
-      {/*      <IconButton*/}
-      {/*        size="large"*/}
-      {/*        aria-label="show 17 new notifications"*/}
-      {/*        color="inherit"*/}
-      {/*        sx={{*/}
-      {/*          '&:hover': {*/}
-      {/*            backgroundColor: colors.grey[700]*/}
-      {/*          },*/}
-      {/*          backgroundColor: colors.grey[700],*/}
-      {/*          width: 42, height: 42,*/}
-      {/*        }}*/}
-      {/*        onClick={handleClick}*/}
-      {/*      >*/}
-      {/*        <Badge badgeContent={0} color="primary">*/}
-      {/*          <MessageIcon/>*/}
-      {/*        </Badge>*/}
-      {/*      </IconButton>*/}
-      {/*    </Tooltip>*/}
-      {/*    <Tooltip title='Notifications'>*/}
-      {/*      <IconButton*/}
-      {/*        size="large"*/}
-      {/*        aria-label="show 17 new notifications"*/}
-      {/*        color="inherit"*/}
-      {/*        sx={{*/}
-      {/*          '&:hover': {*/}
-      {/*            backgroundColor: colors.grey[700]*/}
-      {/*          },*/}
-      {/*          backgroundColor: colors.grey[700],*/}
-      {/*          width: 42, height: 42,*/}
-      {/*        }}*/}
-      {/*        onClick={handleClick}*/}
-      {/*      >*/}
-      {/*        <Badge badgeContent={17} color="primary">*/}
-      {/*          <NotificationsIcon/>*/}
-      {/*        </Badge>*/}
-      {/*      </IconButton>*/}
-      {/*    </Tooltip>*/}
-      {/*    <Tooltip title="Open settings">*/}
-      {/*      <IconButton onClick={handleClick} sx={{p: 0}}>*/}
-      {/*        <Avatar alt="Remy Sharp" sx={{width: 42, height: 42}}*/}
-      {/*                src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/202212/messiworldcupkiss-sixteen_nine.jpg?VersionId=KWx9GiX6ck7S__64GF0Obl4osEdybDZW&size=690:388"/>*/}
-      {/*      </IconButton>*/}
-      {/*    </Tooltip>*/}
-      {/*  </Stack>*/}
-      {/*  <Menu*/}
-      {/*    anchorEl={anchorEl}*/}
-      {/*    open={open}*/}
-      {/*    onClose={handleClose}*/}
-      {/*    onClick={handleClose}*/}
-      {/*    anchorOrigin={{*/}
-      {/*      vertical: 'bottom',*/}
-      {/*      horizontal: 'right',*/}
-      {/*    }}*/}
-      {/*    keepMounted*/}
-      {/*    transformOrigin={{*/}
-      {/*      vertical: 'top',*/}
-      {/*      horizontal: 'right',*/}
-      {/*    }}*/}
-      {/*    sx={{*/}
-      {/*      "& .MuiPaper-root": {*/}
-      {/*        backgroundColor: colors.grey[700]*/}
-      {/*      },*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    {dataNotifications.map((noti) => (*/}
-      {/*      <MenuItem key={noti.id} sx={{*/}
-      {/*        "&:hover": {*/}
-      {/*          backgroundColor: colors.grey[800]*/}
-      {/*        }*/}
-      {/*      }}>*/}
-      {/*        <Avatar src={noti.avatar}/>*/}
-      {/*        <Typography fontSize={18} color={colors.grey[100]} mx={1}>{noti.username}</Typography>*/}
-      {/*        <Typography color={colors.grey[300]}>{noti.massage}</Typography>*/}
-      {/*      </MenuItem>*/}
-      {/*    ))}*/}
-      {/*  </Menu>*/}
-      {/*</Stack>*/}
     </>
   )
 }
