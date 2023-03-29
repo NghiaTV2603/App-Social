@@ -27,7 +27,7 @@ const ContentMessage = () => {
    const url = window.location.href.split('/');
    const chatId = url[url.length - 1];
 
-   const socket = io('http://localhost:5000');
+   const socket = io('https://app-social-server.onrender.com');
    useEffect(() => {
       socket.emit('setup', userAuth._id);
       socket.on('connected', () => {
