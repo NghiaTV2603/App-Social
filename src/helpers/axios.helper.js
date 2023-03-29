@@ -15,7 +15,7 @@ export const axiosRequest = (
   data = null
 ) => {
   const axiosConfig = {
-    url,
+    url ,
     method,
     headers: {},
     params,

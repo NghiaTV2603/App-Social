@@ -18,8 +18,8 @@ const DialogEditPost = (props) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      caption: data.get('caption'),
-      content: data.get('content'),
+      description: data.get('caption'),
+      image: data.get('content'),
     });
   };
   return (

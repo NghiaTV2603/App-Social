@@ -22,40 +22,9 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import SendIcon from '@mui/icons-material/Send';
 import DialogEditPost from "src/features/newsFeed/components/DialogEditPost";
 import {v4 as uuid} from "uuid";
+import {useSelector} from "react-redux";
 
 
-const userAuth = {
-  id: 1,
-  username: 'Nghia Tran Van',
-  avatar: "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202212/messiworldcupkiss-sixteen_nine.jpg?VersionId=KWx9GiX6ck7S__64GF0Obl4osEdybDZW&size=690:388",
-}
-
-const dataComment = [
-  {
-    id: 1,
-    username: 'Nam Viet',
-    avatar: 'https://img.redbull.com/images/c_crop,x_485,y_0,h_1365,w_1092/c_fill,w_400,h_540/q_auto:low,f_auto/redbullcom/2018/06/21/d2cf128c-d383-422b-bd6b-c1b6abf62cd3/cs-go-cloud9-autimatic',
-    content: 'A paraplegic Marine dispatched to the moon Pandora'
-  },
-  {
-    id: 2,
-    username: 'Nam nguyen Viet',
-    avatar: 'https://img.redbull.com/images/c_crop,x_485,y_0,h_1365,w_1092/c_fill,w_400,h_540/q_auto:low,f_auto/redbullcom/2018/06/21/d2cf128c-d383-422b-bd6b-c1b6abf62cd3/cs-go-cloud9-autimatic',
-    content: 'A paraplegic Marine dispatched to the moon Pandora'
-  },
-  {
-    id: 3,
-    username: 'Nam nguyen Viet',
-    avatar: 'https://img.redbull.com/images/c_crop,x_485,y_0,h_1365,w_1092/c_fill,w_400,h_540/q_auto:low,f_auto/redbullcom/2018/06/21/d2cf128c-d383-422b-bd6b-c1b6abf62cd3/cs-go-cloud9-autimatic',
-    content: 'A paraplegic Marine dispatched to the moon Pandora'
-  },
-  {
-    id: 4,
-    username: 'Nam nguyen Viet',
-    avatar: 'https://img.redbull.com/images/c_crop,x_485,y_0,h_1365,w_1092/c_fill,w_400,h_540/q_auto:low,f_auto/redbullcom/2018/06/21/d2cf128c-d383-422b-bd6b-c1b6abf62cd3/cs-go-cloud9-autimatic',
-    content: 'A paraplegic Marine dispatched to the moon Pandora'
-  },
-]
 
 const CommentPost = (props) => {
   const comment = props.comment
@@ -67,14 +36,13 @@ const CommentPost = (props) => {
   };
   const handleCloseCMT = (id) => {
     setAnchorCmt(null)
-    props.onUpdateComment(id)
-    console.log(dataComment)
+    console.log()
   };
   return (
     <Stack direction='row' px={2} py={0.5} color={colors.grey[400]}>
-      <Avatar src={comment.avatar} sx={{width: 32, height: 32, marginRight: 1}}/>
+      <Avatar src={comment.user_id.avatar} sx={{width: 32, height: 32, marginRight: 1}}/>
       <Stack bgcolor={colors.grey[900]} borderRadius={4} py={1} px={2}>
-        <Typography fontSize={15} variant='h6' color={colors.grey[300]}>{comment.username}</Typography>
+        <Typography fontSize={15} variant='h6' color={colors.grey[300]}>{comment.user_id.username}</Typography>
         <Typography fontSize={13}>{comment.content}</Typography>
       </Stack>
       <Box pt={1} ml={-1}>
@@ -110,12 +78,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const Post = (props) => {
+
   const dataPost = props.dataPost
-  const [isLike, setIsLike] = React.useState(false)
+  const userAuth  = useSelector(state => state.authen.user)
+
+  const [isLike, setIsLike] = React.useState(dataPost.likes.some(obj => obj._id === userAuth._id))
   const [openComment, setOpenComment] = React.useState(false)
   const [openEdit, setOpenEdit] = React.useState(false);
   const [contentComment, setContentComment] = React.useState('');
-  const [comments, setComments] = React.useState(dataComment)
+  const [likes,setLikes] = React.useState(dataPost.likes.length)
   // edit post
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -125,14 +96,15 @@ const Post = (props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  var countComments = dataPost.comments.length ;
 
   //handle like
   const handlelikePost = () => {
     setIsLike(!isLike);
     if (!isLike) {
-      dataPost.countLikes += 1;
+      setLikes(likes +1 );
     } else {
-      dataPost.countLikes -= 1;
+      setLikes(likes - 1);
     }
   }
   const handleCloseEditPost = () => {
@@ -141,38 +113,24 @@ const Post = (props) => {
   //handle comment
   const handleSetNewComment = (e) => {
     setContentComment(e.target.value);
+    console.log(e.target.value);
   }
-  const handleAddNewComment = () => {
-    const newComment = {
-      id: uuid(),
-      username: userAuth.username,
-      avatar: userAuth.avatar,
-      content: contentComment,
-    }
-    if(newComment.content !== '' ){
-    setComments([...comments, newComment])
-    }
-    setContentComment('')
-  }
-  const handleUpdateComment = (id) => {
-    console.log(id)
-    setComments(comments.filter(item => item.id !== id))
-  }
+
   return (
     <Stack sx={{width: 700, backgroundColor: colors.grey[800]}} borderRadius={2} m={1}>
       <Stack className='UserPost' direction='row' justifyContent='space-between' py={2}>
         <Stack direction='row' px={2}>
           <Avatar
-            src={dataPost.avatarUser}
+            src={dataPost.user_id.avatar}
             sx={{width: 56, height: 56}}
           />
           <Stack color={colors.grey[50]} ml={1}>
-            <Typography variant='h6'>{dataPost.username} </Typography>
-            <Typography sx={{color: colors.grey[300]}} fontSize={11}>{dataPost.timePost} .</Typography>
+            <Typography variant='h6'>{dataPost.user_id.username} </Typography>
+            <Typography sx={{color: colors.grey[300]}} fontSize={11}>{dataPost.createdAt} .</Typography>
           </Stack>
         </Stack>
         {
-          userAuth.id === dataPost.idUser &&
+          userAuth._id === dataPost.user_id._id &&
           <Stack height={32}>
             <IconButton aria-label="delete" onClick={handleClick}>
               <MoreVertIcon fontSize='medium' sx={{color: colors.grey[100]}}/>
@@ -211,11 +169,11 @@ const Post = (props) => {
 
       </Stack>
       <Stack className='captionPost' color={colors.grey[300]} px={1.5} pb={1}>
-        <Typography fontSize={16}>{dataPost.captionPost}</Typography>
+        <Typography fontSize={16}>{dataPost.description}</Typography>
       </Stack>
       <CardMedia
         component="img"
-        image={dataPost.contentPost}
+        image={dataPost.image}
         alt="Paella dish"
       />
       <Stack direction='row' justifyContent='space-between' alignItems='center' px={2} py={1}>
@@ -227,13 +185,13 @@ const Post = (props) => {
             color: colors.grey[300],
             cursor: 'pointer',
             '&:hover': {textDecoration: 'underline'}
-          }}>{dataPost.countLikes}</Typography>
+          }}>{likes}</Typography>
         </Stack>
         <Typography fontSize={14} sx={{
           color: colors.grey[300],
           cursor: 'pointer',
           '&:hover': {textDecoration: 'underline'},
-        }}>{dataPost.countComments} Comments</Typography>
+        }}>{countComments} Comments</Typography>
       </Stack>
       <Stack px={1.5}>
         <Divider sx={{backgroundColor: colors.grey[600]}}/>
@@ -256,9 +214,9 @@ const Post = (props) => {
         <Divider sx={{backgroundColor: colors.grey[600]}}/>
       </Stack>
       {openComment &&
-        comments.map((comment) => (
-          <Stack key={comment.id}>
-            <CommentPost comment={comment} onUpdateComment={handleUpdateComment}/>
+        dataPost.comments.map((comment) => (
+          <Stack key={comment._id}>
+            <CommentPost comment={comment}/>
           </Stack>
         ))
       }
@@ -275,7 +233,7 @@ const Post = (props) => {
           width: 550,
         }} onChange={handleSetNewComment} value={contentComment}
         />
-        <IconButton onClick={handleAddNewComment}
+        <IconButton
                     sx={{height: 36, width: 36, marginLeft: 2, '&:hover': {backgroundColor: colors.grey[700]}}}>
           <SendIcon sx={{color: colors.grey[400]}}/>
         </IconButton>
