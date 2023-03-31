@@ -19,13 +19,13 @@ const MyPost = () => {
   const handleCloseAddPost = () => {
     setOpenAddPost(false)
   }
-  const dataPost = useSelector(state => state.post.myPost) ;
-const userAuth = useSelector(state => state.authen.user)
+  const dataPost = useSelector(state => state.post?.myPost) ;
+const userAuth = useSelector(state => state.authen?.user)
   return (
     <>
       <Paper style={{maxHeight: '91vh', overflow: 'auto', backgroundColor: colors.grey[900]}}>
         <Stack p={2} m={1} direction='row' borderRadius={2} bgcolor={colors.grey[800]}>
-          <Avatar src={userAuth.avatar}/>
+          <Avatar src={userAuth?.avatar}/>
           <Stack bgcolor={colors.grey[900]} width='100%' ml={1} borderRadius={6} alignItems='center' direction='row'
           sx={{ cursor:'pointer' , '&:hover':{backgroundColor:colors.grey[700]}}}
           onClick={handleClickAddPost}

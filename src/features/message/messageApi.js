@@ -2,6 +2,8 @@ import { axiosMethod, axiosRequest } from 'src/helpers/axios.helper';
 
 const chatEndPoint = 'https://app-social-server.onrender.com/api/v1/chat';
 const messageEndPoint = 'https://app-social-server.onrender.com/api/v1/message';
+// const chatEndPoint = 'http://localhost:5000/api/v1/chat';
+// const messageEndPoint = 'http://localhost:5000/api/v1/message';
 
 const chatApi = {
    accessChat: (token, data) => {

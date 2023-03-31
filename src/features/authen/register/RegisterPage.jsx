@@ -1,121 +1,116 @@
 import * as React from 'react';
 import {
-  Avatar,
-  Button,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Grid,
-  Box,
-  Typography,
-  Container,
-  useTheme,
+   Avatar,
+   Button,
+   TextField,
+   FormControlLabel,
+   Checkbox,
+   Grid,
+   Box,
+   Typography,
+   Container,
+   useTheme,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { register } from 'src/features/authen/authenSlice';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 
 export default function RegisterPage() {
-  const theme = useTheme();
-  const themeMode = theme.palette.mode;
+   const theme = useTheme();
+   const themeMode = theme.palette.mode;
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
+   const message = useSelector((state) => state.authen.message);
+   const isLogin = useSelector((state) => state.authen.isLogin);
+   useEffect(() => {
+      if (isLogin) {
+         navigate('/');
+      }
+   }, [isLogin]);
+   const handleSubmit = (event) => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const user = {
+         username: data.get('email'),
+         password: data.get('password'),
+      };
+      dispatch(register(user));
+   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-
-  return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Avatar
-          sx={{
-            m: 1,
-            bgcolor: themeMode === 'light' ? 'primary.light' : 'primary.dark',
-          }}
-        >
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Welcome
-        </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="given-name"
-                name="firstName"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I agree to the terms and conditions."
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Register
-          </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link to="/authen/login" >
-                Already have an account? Login
-              </Link>
-            </Grid>
-          </Grid>
-        </Box>
-      </Box>
-    </Container>
-  );
+   return (
+      <Container component="main" maxWidth="xs">
+         <Box
+            sx={{
+               marginTop: 8,
+               display: 'flex',
+               flexDirection: 'column',
+               alignItems: 'center',
+            }}
+         >
+            <Avatar
+               sx={{
+                  m: 1,
+                  bgcolor:
+                     themeMode === 'light' ? 'primary.light' : 'primary.dark',
+               }}
+            >
+               <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+               Welcome
+            </Typography>
+            <Box
+               component="form"
+               noValidate
+               onSubmit={handleSubmit}
+               sx={{ mt: 3 }}
+            >
+               <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                     <TextField
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                     />
+                  </Grid>
+                  <Grid item xs={12}>
+                     <TextField
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="new-password"
+                     />
+                  </Grid>
+               </Grid>
+               <Typography fontSize={18} fontWeight={500} color={'red'}>
+                  {message}
+               </Typography>
+               <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+               >
+                  Register
+               </Button>
+               <Grid container justifyContent="flex-end">
+                  <Grid item>
+                     <Link to="/authen/login">
+                        Already have an account? Login
+                     </Link>
+                  </Grid>
+               </Grid>
+            </Box>
+         </Box>
+      </Container>
+   );
 }

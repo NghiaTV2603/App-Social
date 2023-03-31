@@ -7,6 +7,7 @@ import Message from 'src/features/message/Message';
 import NewsFeed from 'src/features/newsFeed/NewsFeed';
 import Profile from 'src/features/profile/Profile';
 import ContentMessage from "src/features/message/components/ContentMessage";
+import VideoCall from "src/features/videoCall/VideoCall";
 
 const routes = [
    {
@@ -25,7 +26,7 @@ const routes = [
          },
          { path: '404', element: <NotFoundPage /> },
          { path: '/', element: <HomePage /> },
-         { path: '/Message', element: <Message /> },
+         { path: '/video', element: <VideoCall /> },
          { path: '*', element: <NotFoundPage /> },
       ],
    },

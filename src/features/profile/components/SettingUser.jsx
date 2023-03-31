@@ -9,7 +9,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const SettingUser = () => {
-  const userAuth = useSelector(state => state.authen.user) ;
+  const userAuth = useSelector(state => state.authen?.user) ;
 
 
   // edit username
@@ -35,11 +35,11 @@ const SettingUser = () => {
       <Stack m={1} direction='row-reverse' color={colors.grey[400]} sx={{display: {xs: 'none', md: 'flex'}}}>
         <Stack  width={360} bgcolor={colors.grey[800]} borderRadius={4}>
           <Stack direction='row' py={2} px={3} alignItems='center'>
-            <Avatar src={userAuth.avatar} sx={{height: 72, width: 72}}/>
+            <Avatar src={userAuth?.avatar} sx={{height: 72, width: 72}}/>
             <Stack ml={2}>
-              <Typography color={colors.grey[300]} variant='h6' fontSize={24}>{userAuth.username}</Typography>
+              <Typography color={colors.grey[300]} variant='h6' fontSize={24}>{userAuth?.username}</Typography>
               <Stack>
-                <Typography fontSize={14} sx={{color: colors.grey[400]}}>{userAuth.posts.length} Posts</Typography>
+                <Typography fontSize={14} sx={{color: colors.grey[400]}}>{userAuth?.posts.length} Posts</Typography>
               </Stack>
             </Stack>
           </Stack>
@@ -47,7 +47,7 @@ const SettingUser = () => {
             <Divider sx={{backgroundColor: colors.grey[600]}}/>
             <Stack direction='row' alignItems='center' mt={2}>
               <Typography fontSize={16} mr={1}>Username:</Typography>
-              <Typography color={colors.grey[300]} variant='h6' fontSize={20} mr={4}>{userAuth.username}</Typography>
+              <Typography color={colors.grey[300]} variant='h6' fontSize={20} mr={4}>{userAuth?.username}</Typography>
               <Button onClick={handleClickOpen} sx={{
                 backgroundColor: colors.grey[700],
                 color: colors.grey[300],

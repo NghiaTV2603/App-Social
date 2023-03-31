@@ -14,6 +14,7 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
 import {Link} from "react-router-dom"
 import {useSelector} from "react-redux";
+import {persistor} from "src/app/store";
 
 const RightAppBar = (props) => {
   const dataMessage = [];
@@ -45,6 +46,10 @@ const RightAppBar = (props) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const handleLogout = () => {
+    persistor.purge();
+    window.location.reload()
+  }
 
   return (
     <>
@@ -239,7 +244,7 @@ const RightAppBar = (props) => {
               backgroundColor: colors.grey[800]
             }
           }}>
-            <Stack direction='row' alignItems='center' spacing={1} color={colors.grey[200]}>
+            <Stack direction='row' alignItems='center' spacing={1} color={colors.grey[200]} onClick={handleLogout}>
               <LogoutIcon fontSize='small'/>
               <Typography textAlign="center">Logout</Typography>
             </Stack>

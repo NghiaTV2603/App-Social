@@ -22,7 +22,10 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import SendIcon from '@mui/icons-material/Send';
 import DialogEditPost from 'src/features/newsFeed/components/DialogEditPost';
 import { useDispatch, useSelector } from 'react-redux';
-import {fetchComment, fetchLikePost} from 'src/features/newsFeed/newfeedSlice';
+import {
+   fetchComment,
+   fetchLikePost,
+} from 'src/features/newsFeed/newfeedSlice';
 
 const CommentPost = (props) => {
    const comment = props.comment;
@@ -93,6 +96,7 @@ const Post = (props) => {
    const dataPost = props.dataPost;
    const userAuth = useSelector((state) => state.authen.user);
    const token = useSelector((state) => state.authen.token);
+   const dateString = dataPost.createdAt;
 
    const [isLike, setIsLike] = React.useState(
       dataPost.likes.some((obj) => obj._id === userAuth._id)
@@ -145,6 +149,37 @@ const Post = (props) => {
       setContentComment('');
    };
 
+   // handle date
+   const now = Date.now();
+   const time = new Date(dateString).getTime();
+
+   const diff = now - time;
+   const minute = 60 * 1000;
+   const hour = 60 * minute;
+   const day = 24 * hour;
+
+   let result;
+
+   if (diff < minute) {
+      result = 'just now';
+   } else if (diff < hour) {
+      result = Math.floor(diff / minute) + ' minutes ago';
+   } else if (diff < day) {
+      result = Math.floor(diff / hour) + ' hours ago';
+   } else if (diff < 30 * day) {
+      result = Math.floor(diff / day) + ' days ago';
+   } else {
+      const date = new Date(dateString);
+      const year = date.getFullYear().toString().substring(2);
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      result =
+         year +
+         '-' +
+         month.toString().padStart(2, '0') +
+         '-' +
+         day.toString().padStart(2, '0');
+   }
    return (
       <Stack
          sx={{ width: 700, backgroundColor: colors.grey[800] }}
@@ -167,7 +202,7 @@ const Post = (props) => {
                      {dataPost.user_id.username}{' '}
                   </Typography>
                   <Typography sx={{ color: colors.grey[300] }} fontSize={11}>
-                     {dataPost.createdAt} .
+                     {result} .
                   </Typography>
                </Stack>
             </Stack>

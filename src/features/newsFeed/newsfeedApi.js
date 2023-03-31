@@ -1,6 +1,7 @@
 import { axiosMethod, axiosRequest } from 'src/helpers/axios.helper';
 
 const postEndPoint = 'https://app-social-server.onrender.com/api/v1/post';
+// const postEndPoint = 'http://localhost:5000/api/v1/post';
 
 const postApi = {
    listAllPost: (token) => {

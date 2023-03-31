@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { axiosMethod, axiosRequest } from 'src/helpers/axios.helper';
 
 const authenEndPoint = "https://app-social-server.onrender.com/api/v1"
+// const authenEndPoint = "http://localhost:5000/api/v1"
 
 
 const authenAPI = {

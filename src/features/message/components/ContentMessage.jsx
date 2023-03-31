@@ -11,6 +11,7 @@ import messageSlice, {
    fetchSendMessage,
 } from 'src/features/message/messageSlice';
 import io from 'socket.io-client';
+import { Link } from 'react-router-dom';
 
 const styleIconButton = {
    height: 36,
@@ -28,8 +29,9 @@ const ContentMessage = () => {
    const chatId = url[url.length - 1];
 
    const socket = io('https://app-social-server.onrender.com');
+   // const socket = io('http://localhost:5000');
    useEffect(() => {
-      socket.emit('setup', userAuth._id);
+      socket.emit('setup', userAuth?._id);
       socket.on('connected', () => {
          setConnect(true);
       });
@@ -120,9 +122,11 @@ const ContentMessage = () => {
                   <IconButton sx={styleIconButton}>
                      <CallIcon fontSize="medium" />
                   </IconButton>
-                  <IconButton sx={styleIconButton}>
-                     <VideoCallIcon fontSize="large" />
-                  </IconButton>
+                  <Link to={'/video'} target="_blank">
+                     <IconButton sx={styleIconButton}>
+                        <VideoCallIcon fontSize="large" />
+                     </IconButton>
+                  </Link>
                </Stack>
             </Stack>
             <Stack
