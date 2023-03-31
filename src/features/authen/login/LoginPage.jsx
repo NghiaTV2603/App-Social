@@ -9,7 +9,7 @@ import {
   Box,
   Typography,
   Container,
-  useTheme, colors,
+  useTheme, colors, Stack,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link } from 'react-router-dom';
@@ -17,9 +17,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import authenSlice, { login } from 'src/features/authen/authenSlice';
 import { useNavigate } from 'react-router';
 import { useEffect } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function LoginPage() {
    const stateAuthen = useSelector(state => state.authen);
+   const status = useSelector(state => state.authen.status)
+   console.log(status) ;
    const theme = useTheme();
    const themeMode = theme.palette.mode;
    const dispatch = useDispatch();
@@ -102,6 +105,9 @@ export default function LoginPage() {
                >
                   Login
                </Button>
+              {status === "ld" && <Stack pl={22} py={1}>
+                <CircularProgress/>
+              </Stack>}
                <Grid container>
                   <Grid item xs>
                   </Grid>

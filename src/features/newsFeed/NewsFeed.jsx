@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dataPostNewFeed } from 'src/app/selector';
 import MyPost from 'src/features/profile/components/MyPost';
 import { fetchAllPost } from 'src/features/newsFeed/newfeedSlice';
+import PostLoading from 'src/features/newsFeed/components/PostLoading';
 
 const NewsFeed = () => {
    const dataNewFeed = useSelector((state) => state.post.allPost);
    const token = useSelector((state) => state.authen.token);
+   const status = useSelector((state) => state.post.status);
    const dispatch = useDispatch();
    useEffect(() => {
       dispatch(fetchAllPost(token));
@@ -22,6 +24,13 @@ const NewsFeed = () => {
             alignItems="center"
             bgcolor={colors.grey[900]}
          >
+            {status === 'loading' && (
+               <Stack>
+                  <PostLoading />
+                  <PostLoading />
+               </Stack>
+            )}
+
             {/*<MyPost/>*/}
             {dataNewFeed.map((post) => (
                <Stack key={post._id}>

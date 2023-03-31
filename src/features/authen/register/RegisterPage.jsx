@@ -1,15 +1,15 @@
 import * as React from 'react';
 import {
-   Avatar,
-   Button,
-   TextField,
-   FormControlLabel,
-   Checkbox,
-   Grid,
-   Box,
-   Typography,
-   Container,
-   useTheme,
+  Avatar,
+  Button,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Grid,
+  Box,
+  Typography,
+  Container,
+  useTheme, Stack,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link } from 'react-router-dom';
@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { register } from 'src/features/authen/authenSlice';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function RegisterPage() {
    const theme = useTheme();
@@ -24,6 +25,7 @@ export default function RegisterPage() {
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const message = useSelector((state) => state.authen.message);
+   const status = useSelector((state) => state.authen.status);
    const isLogin = useSelector((state) => state.authen.isLogin);
    useEffect(() => {
       if (isLogin) {
@@ -102,6 +104,9 @@ export default function RegisterPage() {
                >
                   Register
                </Button>
+              {status === "ld" && <Stack pl={22} py={1}>
+                <CircularProgress/>
+              </Stack>}
                <Grid container justifyContent="flex-end">
                   <Grid item>
                      <Link to="/authen/login">

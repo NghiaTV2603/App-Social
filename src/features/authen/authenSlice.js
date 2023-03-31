@@ -20,7 +20,7 @@ const authenSlice = createSlice({
    },
    extraReducers: (builder) => {
       builder.addCase(login.pending, (state, action) => {
-         state.status = 'loading';
+         state.status = 'ld';
          state.isLogin = false;
       });
       builder.addCase(login.fulfilled, (state, action) => {
@@ -35,7 +35,7 @@ const authenSlice = createSlice({
          state.message = action.payload;
       });
       builder.addCase(register.pending, (state, action) => {
-         state.status = 'loading';
+         state.status = 'ld';
          state.isLogin = false;
       });
       builder.addCase(register.fulfilled, (state, action) => {
