@@ -13,23 +13,27 @@ const messageSlice = createSlice({
       setChat: (state, action) => {
          state.currentChat = action.payload;
       },
-     resetChat : (state, action) => {
-       state.currentChat = null;
-       state.messages = [] ;
-     },
-     addMessage : (state, action) => {
-       state.messages.unshift(action.payload);
-       state.chats = state.chats.map((item) => {
-         if (item._id === action.payload.chat._id) {
-           return { ...item, latestMessage: action.payload };
-         }
-         return item;
-       });
-     }
+      resetChat: (state, action) => {
+         state.currentChat = null;
+         state.messages = [];
+      },
+      addMessage: (state, action) => {
+         state.messages.unshift(action.payload);
+         state.chats = state.chats.map((item) => {
+            if (item._id === action.payload.chat._id) {
+               return { ...item, latestMessage: action.payload };
+            }
+            return item;
+         });
+      },
    },
    extraReducers: (builder) => {
+      builder.addCase(fetchAccessChat.pending, (state, action) => {
+         state.status = 'loading';
+      });
       builder.addCase(fetchAccessChat.fulfilled, (state, action) => {
          state.chats.push(action.payload);
+         state.status = 'idle';
       });
       builder.addCase(fetchChat.pending, (state, action) => {
          state.status = 'loading';

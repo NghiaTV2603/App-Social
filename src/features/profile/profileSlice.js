@@ -1,27 +1,27 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import profileApi from "src/features/profile/profileApi";
 
 const profileSlice = createSlice({
-  name: 'profile',
-  initialState: {status: 'idle', data: {}},
-  reducers: {},
-  extraReducers: builder => {
-    builder.addCase(editUsername.fulfilled, (state, action) => {
-      state.data = action.payload;
-    })
-    builder.addCase(editUsername.rejected, (state, action) => {
-      state.status = 'error';
-    })
+   name: 'profile',
+   initialState: {
+      status: 'idle',
+      listUser: [],
+      currentUser: {},
+   },
+   reducers: {},
+   extraReducers: (builder) => {
+      builder.addCase(fetchListUser.fulfilled,(state, action)=> {
+        state.listUser = action.payload ;
+      })
+   },
+});
+export default profileSlice;
+
+export const fetchListUser = createAsyncThunk("profile/listUser" , async (token,{rejectWithValue}) => {
+  try{
+    const res = await profileApi.listUser(token);
+    return res.data
+  }catch (e) {
+    return rejectWithValue(e.response.data);
   }
 })
-export default profileSlice
-
-const api = axios.create({
-  baseURL:'http://localhost:8000/api/profile'
-})
-
-export const editUsername = createAsyncThunk("profile/editUsername", async (id,newData,tokenStr) => {
-  const data = await api.patch(`/${id}`, { headers: {"Authorization" : `Bearer ${tokenStr}`}} )
-  return data.data ;
-})
-

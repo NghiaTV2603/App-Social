@@ -24,7 +24,7 @@ const NewsFeed = () => {
             alignItems="center"
             bgcolor={colors.grey[900]}
          >
-            {status === 'loading' && (
+            {status === 'loading' && dataNewFeed.length === 0 && (
                <Stack>
                   <PostLoading />
                   <PostLoading />

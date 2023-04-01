@@ -12,6 +12,7 @@ import messageSlice, {
 } from 'src/features/message/messageSlice';
 import io from 'socket.io-client';
 import { Link } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const styleIconButton = {
    height: 36,
@@ -22,6 +23,7 @@ const styleIconButton = {
 const ContentMessage = () => {
    const userChat = useSelector((state) => state.message.currentChat);
    const messages = useSelector((state) => state.message.messages);
+   const status = useSelector((state) => state.message.status);
    const userAuth = useSelector((state) => state.authen.user);
    const token = useSelector((state) => state.authen.token);
    const [connect, setConnect] = useState(false);
