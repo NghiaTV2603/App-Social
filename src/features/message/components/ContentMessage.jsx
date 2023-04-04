@@ -41,9 +41,12 @@ const ContentMessage = () => {
 
    useEffect(() => {
       socket.on('message received', (newMessage) => {
-         dispatch(messageSlice.actions.addMessage(newMessage));
+         if (newMessage.chat._id === chatId) {
+           console.log('a');
+            dispatch(messageSlice.actions.addMessage(newMessage));
+         }
       });
-   });
+   },[]);
 
    useEffect(() => {
       if (chatId != '0') {
@@ -91,17 +94,17 @@ const ContentMessage = () => {
             bgcolor={colors.grey[900]}
             color={colors.grey[300]}
          >
-            <Stack
-               height={96}
-               bgcolor={colors.grey[900]}
-               direction={'row'}
-               alignItems={'center'}
-               px={2}
-               justifyContent={'space-between'}
-               borderBottom={1}
-               borderColor={colors.grey[800]}
-            >
-               {userChat && (
+            {userChat && (
+               <Stack
+                  height={96}
+                  bgcolor={colors.grey[900]}
+                  direction={'row'}
+                  alignItems={'center'}
+                  px={2}
+                  justifyContent={'space-between'}
+                  borderBottom={1}
+                  borderColor={colors.grey[800]}
+               >
                   <Stack direction={'row'} alignItems={'center'} spacing={1}>
                      <Avatar
                         sx={{ height: 45, width: 45 }}
@@ -119,18 +122,18 @@ const ContentMessage = () => {
                         }
                      </Typography>
                   </Stack>
-               )}
-               <Stack direction={'row'} alignItems={'center'} spacing={2}>
-                  <IconButton sx={styleIconButton}>
-                     <CallIcon fontSize="medium" />
-                  </IconButton>
-                  <Link to={'/video'} target="_blank">
+                  <Stack direction={'row'} alignItems={'center'} spacing={2}>
                      <IconButton sx={styleIconButton}>
-                        <VideoCallIcon fontSize="large" />
+                        <CallIcon fontSize="medium" />
                      </IconButton>
-                  </Link>
+                     <Link to={'/video'} target="_blank">
+                        <IconButton sx={styleIconButton}>
+                           <VideoCallIcon fontSize="large" />
+                        </IconButton>
+                     </Link>
+                  </Stack>
                </Stack>
-            </Stack>
+            )}
             <Stack
                my={1}
                direction="column-reverse"

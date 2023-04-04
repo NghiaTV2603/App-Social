@@ -239,12 +239,15 @@ const RightAppBar = (props) => {
               <Typography textAlign="center">Setting</Typography>
             </Stack>
           </MenuItem>
-          <MenuItem onClick={handleCloseUserMenu} sx={{
+          <MenuItem onClick={()=> {
+            handleCloseUserMenu() ;
+            handleLogout() ;
+          }} sx={{
             "&:hover": {
               backgroundColor: colors.grey[800]
             }
           }}>
-            <Stack direction='row' alignItems='center' spacing={1} color={colors.grey[200]} onClick={handleLogout}>
+            <Stack direction='row' alignItems='center' spacing={1} color={colors.grey[200]}>
               <LogoutIcon fontSize='small'/>
               <Typography textAlign="center">Logout</Typography>
             </Stack>

@@ -147,6 +147,7 @@ const Post = (props) => {
       };
       dispatch(fetchComment(dataFetch));
       setContentComment('');
+      setOpenComment(true)
    };
 
    // handle date
