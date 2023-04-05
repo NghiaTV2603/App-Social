@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { colors, Stack, Typography, IconButton } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import CallIcon from '@mui/icons-material/Call';
@@ -11,7 +11,7 @@ import messageSlice, {
    fetchSendMessage,
 } from 'src/features/message/messageSlice';
 import io from 'socket.io-client';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const styleIconButton = {
@@ -27,8 +27,8 @@ const ContentMessage = () => {
    const userAuth = useSelector((state) => state.authen.user);
    const token = useSelector((state) => state.authen.token);
    const [connect, setConnect] = useState(false);
-   const url = window.location.href.split('/');
-   const chatId = url[url.length - 1];
+   const UriParams = useParams();
+   const chatId = UriParams.chatId;
 
    const socket = io('https://app-social-server.onrender.com');
    // const socket = io('http://localhost:5000');
@@ -39,14 +39,22 @@ const ContentMessage = () => {
       });
    }, []);
 
-   useEffect(() => {
-      socket.on('message received', (newMessage) => {
-         if (newMessage.chat._id === chatId) {
-           console.log('a');
-            dispatch(messageSlice.actions.addMessage(newMessage));
-         }
-      });
-   },[]);
+  const chatIdRef = useRef(null);
+  const handleNewMessage = (newMessage) => {
+    if (newMessage.chat._id === chatIdRef.current) {
+      dispatch(messageSlice.actions.addMessage(newMessage));
+    }
+  };
+  useEffect(() => {
+    chatIdRef.current = chatId;
+  }, [chatId]);
+
+  useEffect(() => {
+    socket.on('message received', handleNewMessage);
+    return () => {
+      socket.off('message received', handleNewMessage);
+    };
+  }, []);
 
    useEffect(() => {
       if (chatId != '0') {

@@ -21,7 +21,7 @@ const routes = [
                { path: '/', element: <NewsFeed /> },
                { path: '/home', element: <NewsFeed /> },
                { path: '/profile', element: <Profile /> },
-               { path: '/chat', element: <Message />,children :[{ path: '*', element: <ContentMessage /> }] },
+               { path: '/chat/:chatId', element: <Message />},
             ],
          },
          { path: '404', element: <NotFoundPage /> },
