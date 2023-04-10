@@ -16,7 +16,7 @@ import {Link} from "react-router-dom"
 import {useSelector} from "react-redux";
 import {persistor} from "src/app/store";
 
-const RightAppBar = (props) => {
+const RightAppBar = React.memo(() => {
   const dataMessage = [];
   const dataNotifications = [];
   const userAuth = useSelector(state => state.authen.user);
@@ -50,6 +50,8 @@ const RightAppBar = (props) => {
     persistor.purge();
     window.location.reload()
   }
+
+  console.log('right app') ;
 
   return (
     <>
@@ -124,10 +126,9 @@ const RightAppBar = (props) => {
                 dataMessage.map(msg => (
                   <Stack pl={1} key={msg.id} borderRadius={2} direction='row' py={1} spacing={1}
                          sx={{'&:hover': {backgroundColor: colors.grey[900]}, cursor: 'pointer'}}
-                  onClick={()=> {
-                    props.onOpenChat();
-                    handleCloseMessage();
-                  }} >
+                         onClick={()=> {
+                           handleCloseMessage();
+                         }} >
                     <Avatar src={msg.avatar} sx={{height: 48, width: 48}}/>
                     <Stack>
                       <Typography fontSize={18} fontWeight={400}>{msg.username}</Typography>
@@ -256,6 +257,6 @@ const RightAppBar = (props) => {
       </Stack>
     </>
   )
-}
+})
 
 export default RightAppBar

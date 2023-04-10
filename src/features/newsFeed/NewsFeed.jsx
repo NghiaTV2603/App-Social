@@ -13,7 +13,9 @@ const NewsFeed = () => {
    const status = useSelector((state) => state.post.status);
    const dispatch = useDispatch();
    useEffect(() => {
-      dispatch(fetchAllPost(token));
+      if (dataNewFeed.length === 0) {
+         dispatch(fetchAllPost(token));
+      }
    }, []);
 
    return (

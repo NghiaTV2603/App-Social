@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useCallback, useEffect} from 'react';
 import { colors, Stack } from '@mui/material';
 import SideBarApp from './components/AppBar';
 import MainApp from 'src/features/home/components/MainApp';
@@ -9,16 +9,11 @@ import { useNavigate } from 'react-router';
 
 const HomePage = () => {
    const [indexPage, setIndexPage] = React.useState(0);
-   const handleSetIndex = (index) => {
-      setIndexPage(index);
-   };
-   const [isTabChat, setIsTabChat] = React.useState(false);
-   const handleOpenChat = () => {
-      setIsTabChat(true);
-   };
-   const handleCloseChat = () => {
-      setIsTabChat(false);
-   };
+   const handleSetIndex = useCallback(
+     (index) => {
+       setIndexPage(index);
+     }
+   ,[])
 
    const isLogin = useSelector((state) => state.authen.isLogin);
    console.log(isLogin);
@@ -34,7 +29,6 @@ const HomePage = () => {
          <Stack>
             <SideBarApp
                handleSetIndex={handleSetIndex}
-               onOpenChat={handleOpenChat}
             />
             <Stack height={'70px'} bgcolor={colors.grey[800]}></Stack>
             <Outlet />

@@ -20,7 +20,7 @@ const MyPost = () => {
     setOpenAddPost(false)
   }
   const dataPost = useSelector(state => state.post?.myPost) ;
-const userAuth = useSelector(state => state.authen?.user)
+  const userAuth = useSelector(state => state.authen?.user)
   return (
     <>
       <Paper style={{maxHeight: '91vh', overflow: 'auto', backgroundColor: colors.grey[900]}}>

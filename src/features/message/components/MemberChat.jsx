@@ -11,7 +11,6 @@ import messageSlice, {
 import { useNavigate } from 'react-router';
 import Skeleton from '@mui/material/Skeleton';
 import { fetchListUser } from 'src/features/profile/profileSlice';
-import SearchUser from 'src/features/message/components/SearchUser';
 
 const CustomSkeleton = styled(Skeleton)({
    backgroundColor: colors.grey[700],
@@ -31,9 +30,12 @@ const MemberChat = () => {
       dispatch(messageSlice.actions.setChat(chat));
       navigate(`/chat/${chat._id}`);
    };
+   console.log(listUser.length === 0)
    useEffect(() => {
-      dispatch(fetchChat(token));
-      dispatch(fetchListUser(token));
+      if (listUser.length === 0) {
+         dispatch(fetchListUser(token));
+         dispatch(fetchChat(token));
+      }
    }, []);
 
    function searchByUsername(arr, keyword) {
@@ -51,10 +53,10 @@ const MemberChat = () => {
          token,
          data,
       };
-      dispatch(fetchAccessChat(params)).then(res => {
-        dispatch(messageSlice.actions.setChat(res.payload));
-        navigate(`/chat/${res.payload._id}`);
-        setIsSearch(false);
+      dispatch(fetchAccessChat(params)).then((res) => {
+         dispatch(messageSlice.actions.setChat(res.payload));
+         navigate(`/chat/${res.payload._id}`);
+         setIsSearch(false);
       });
    };
    return (

@@ -9,17 +9,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import { colors} from "@mui/material";
 import HomeIcon from '@mui/icons-material/Home';
-import WhatshotIcon from '@mui/icons-material/Whatshot';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import RightAppBar from "src/features/home/components/RightAppBar";
 import ChatIcon from '@mui/icons-material/Chat';
 import FitbitIcon from '@mui/icons-material/Fitbit';
 import {useNavigate} from "react-router";
 
-function SideBarApp(props) {
+const SideBarApp = React.memo((props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [indexPage, setIndexPage] = React.useState(0)
 
@@ -181,12 +179,12 @@ function SideBarApp(props) {
               Profile
             </Button>
           </Box>
-          <RightAppBar onOpenChat={props.onOpenChat}/>
+          <RightAppBar />
         </Toolbar>
       </Container>
     </AppBar>
   );
-}
+})
 
 export default SideBarApp;
 
