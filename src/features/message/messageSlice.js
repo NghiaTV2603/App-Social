@@ -26,6 +26,9 @@ const messageSlice = createSlice({
             return item;
          });
       },
+     sendMessage : (state, action) => {
+       state.chats.find(item => item._id === action.payload).seen = true ;
+     }
    },
    extraReducers: (builder) => {
       builder.addCase(fetchAccessChat.pending, (state, action) => {

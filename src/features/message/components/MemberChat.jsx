@@ -29,6 +29,7 @@ const MemberChat = () => {
    const handleSelectChat = (chat) => {
       dispatch(messageSlice.actions.setChat(chat));
       navigate(`/chat/${chat._id}`);
+      dispatch(messageSlice.actions.sendMessage(chat._id))
    };
    useEffect(() => {
       if (listUser.length === 0) {
@@ -169,44 +170,77 @@ const MemberChat = () => {
                         key={msg._id}
                         borderRadius={2}
                         direction="row"
-                        py={1}
-                        spacing={1}
+                        justifyContent="space-between"
+                        alignItems={'center'}
                         sx={{
                            '&:hover': { backgroundColor: colors.grey[800] },
                            cursor: 'pointer',
                         }}
                         onClick={() => handleSelectChat(msg)}
                      >
-                        <Avatar
-                           src={
-                              msg.users.find(
-                                 (item) => item._id !== userAuth._id
-                              )?.avatar
-                           }
-                           sx={{ height: 48, width: 48 }}
-                        />
-                        <Stack>
-                           <Typography fontSize={18} fontWeight={400}>
-                              {
+                        <Stack direction="row" py={1} spacing={1}>
+                           <Avatar
+                              src={
                                  msg.users.find(
                                     (item) => item._id !== userAuth._id
-                                 )?.username
+                                 )?.avatar
                               }
-                           </Typography>
-                           <Stack direction={'row'}>
-                              <Typography fontSize={13} sx={{ marginRight: 1 }}>
-                                 {msg.latestMessage?.sender === userAuth._id ||
-                                 msg.latestMessage?.sender?._id === userAuth._id
-                                    ? 'You : '
-                                    : ''}
+                              sx={{ height: 48, width: 48 }}
+                           />
+                           <Stack>
+                              <Typography fontSize={18} fontWeight={400}>
+                                 {
+                                    msg.users.find(
+                                       (item) => item._id !== userAuth._id
+                                    )?.username
+                                 }
                               </Typography>
-                              <Typography fontSize={13}>
-                                 {msg.latestMessage?.content.length > 45
-                                    ? msg.message.slice(0, 45) + '...'
-                                    : msg.latestMessage?.content}
-                              </Typography>
+                              <Stack direction={'row'}>
+                                 <Typography
+                                    fontSize={13}
+                                    sx={{ marginRight: 1 }}
+                                 >
+                                    {msg.latestMessage?.sender ===
+                                       userAuth._id ||
+                                    msg.latestMessage?.sender?._id ===
+                                       userAuth._id
+                                       ? 'You : '
+                                       : ''}
+                                 </Typography>
+                                 <Typography
+                                    fontSize={
+                                       !msg.seen &&
+                                       msg.latestMessage?.sender !==
+                                          userAuth._id
+                                          ? 15
+                                          : 13
+                                    }
+                                    fontWeight={500}
+                                    color={
+                                       !msg.seen &&
+                                       msg.latestMessage?.sender !==
+                                          userAuth._id
+                                          ? colors.blue[500]
+                                          : ''
+                                    }
+                                 >
+                                    {msg.latestMessage?.content.length > 45
+                                       ? msg.message.slice(0, 45) + '...'
+                                       : msg.latestMessage?.content}
+                                 </Typography>
+                              </Stack>
                            </Stack>
                         </Stack>
+                        {!msg.seen &&
+                           msg.latestMessage?.sender !== userAuth._id && (
+                              <Stack
+                                 height={10}
+                                 width={10}
+                                 borderRadius={5}
+                                 bgcolor={colors.blue[500]}
+                                 mr={1}
+                              ></Stack>
+                           )}
                      </Stack>
                   ))}
                {isSearch && (
