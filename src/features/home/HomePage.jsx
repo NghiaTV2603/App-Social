@@ -16,7 +16,6 @@ const HomePage = () => {
    ,[])
 
    const isLogin = useSelector((state) => state.authen.isLogin);
-   console.log(isLogin);
    const navigate = useNavigate();
    useEffect(() => {
       if (!isLogin) {

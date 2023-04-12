@@ -30,7 +30,6 @@ const MemberChat = () => {
       dispatch(messageSlice.actions.setChat(chat));
       navigate(`/chat/${chat._id}`);
    };
-   console.log(listUser.length === 0)
    useEffect(() => {
       if (listUser.length === 0) {
          dispatch(fetchListUser(token));

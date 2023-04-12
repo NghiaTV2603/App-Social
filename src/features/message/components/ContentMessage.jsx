@@ -51,9 +51,9 @@ const ContentMessage = () => {
 
   useEffect(() => {
     socket.on('message received', handleNewMessage);
-    return () => {
-      socket.off('message received', handleNewMessage);
-    };
+    // return () => {
+    //   socket.off('message received', handleNewMessage);
+    // };
   }, []);
 
    useEffect(() => {
