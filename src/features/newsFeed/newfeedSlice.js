@@ -40,8 +40,8 @@ export const newfeedSlice = createSlice({
       });
       builder.addCase(fetchAddPost.fulfilled, (state, action) => {
          state.status = 'idle';
-         state.allPost.push(action.payload);
-         state.myPost.push(action.payload);
+         state.allPost.unshift(action.payload);
+         state.myPost.unshift(action.payload);
       });
       builder.addCase(fetchLikePost.fulfilled, (state, action) => {});
       builder.addCase(fetchComment.fulfilled, (state, action) => {

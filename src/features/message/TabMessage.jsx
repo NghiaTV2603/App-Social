@@ -10,58 +10,7 @@ import {v4 as uuid} from "uuid";
 import Tooltip from "@mui/material/Tooltip";
 
 const dataMessage = {
-  username: 'Minh Tran',
-  avatar: '',
-  message: [
-    {
-      id: 1,
-      user: 'me',
-      message: 'dang ngoi code ne',
-      time: '9:30',
-    },
-    {
-      id: 2,
-      user: 'me',
-      message: 'chan qua troi',
-      time: '9:29',
-    },
-    {
-      id: 3,
-      user: 'minh',
-      message: 'dang lam gi the ?',
-      time: '9:26',
-    },
-    {
-      id: 4,
-      user: 'me',
-      message: 'hom nay may co di lam khong day',
-      time: '9:20',
-    },
-    {
-      id: 6,
-      user: 'Minh',
-      message: 'hi Nghia',
-      time: '9:16',
-    },
-    {
-      id: 7,
-      user: 'minh',
-      message: 'dang lam gi the ?',
-      time: '9:26',
-    },
-    {
-      id: 8,
-      user: 'me',
-      message: 'hom nay may co di lam khong day',
-      time: '9:20',
-    },
-    {
-      id: 9,
-      user: 'Minh',
-      message: 'hi Nghia',
-      time: '9:16',
-    },
-  ]
+
 }
 const styleIconButton = {
   height: 28, width: 28, color: colors.grey[300], '&:hover': {backgroundColor: colors.grey[700]}

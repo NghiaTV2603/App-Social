@@ -13,13 +13,21 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { persistor } from 'src/app/store';
 import { useNavigate } from 'react-router';
-import { useMemo, useState } from 'react';
+import {useEffect, useMemo, useState} from 'react';
+import {fetchChat} from "src/features/message/messageSlice";
 
 const RightAppBar = React.memo(() => {
    const dataMessage = useSelector((state) => state.message.chats);
+   const dispatch = useDispatch();
+   const token = useSelector(state => state.authen.token)
+   useEffect(() => {
+     if(dataMessage.length === 0){
+       dispatch(fetchChat(token));
+     }
+   },[])
    const dataNotifications = [];
    const userAuth = useSelector((state) => state.authen.user);
    const [anchorElUser, setAnchorElUser] = React.useState(null);

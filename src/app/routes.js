@@ -6,7 +6,6 @@ import NotFoundPage from 'src/layouts/NotFoundPage';
 import Message from 'src/features/message/Message';
 import NewsFeed from 'src/features/newsFeed/NewsFeed';
 import Profile from 'src/features/profile/Profile';
-import ContentMessage from "src/features/message/components/ContentMessage";
 import VideoCall from "src/features/videoCall/VideoCall";
 
 const routes = [

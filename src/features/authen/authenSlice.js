@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import authenApi from 'src/features/authen/authenApi';
 
 const authenSlice = createSlice({
